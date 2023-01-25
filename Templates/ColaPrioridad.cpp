@@ -4,8 +4,8 @@
 se puede visualizar como un arbol binario casi completos
 */
 template<typename T> void print_queue(T& q){
-         while(!q.empty()){
-            std::cout<< q.top() << "";
+         while(!q.empty()){             //Mientras es queue no este vacio
+            std::cout<< q.top() << "";  //topeamos los elementos 
             q.pop();
          }
          std::cout<< '\n';   

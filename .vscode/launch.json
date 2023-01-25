@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "cwd": "/home/lordangel11/Documentos/Demat/LordAngel11/Estructura de Datos y Algoritmos II/Estructura-de-Datos-y-ALgoritmos-II/Tareas",
+      "program": "/home/lordangel11/Documentos/Demat/LordAngel11/Estructura de Datos y Algoritmos II/Estructura-de-Datos-y-ALgoritmos-II/Tareas/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
