@@ -2,17 +2,6 @@
 
 /*Juan Angel López Delgadiillo*/
 
-//Plantilla para imprimir la cola 
-
-template<typename T> void print_queue(T& q){
-         while(!q.empty()){
-            std::cout<< q.top() << "";
-            q.pop();
-         }
-         std::cout<< '\n';   
-        }
-
-
 /*Vamos a desarrollar la plantilla como se nos pide en la tarea*/
 
 template <class Tpriority, class TKey> 
@@ -26,7 +15,7 @@ en esta estructura de datos*/
 
 std::map<Tpriority, TKey> Upheap; /*Creamos un mapa de Prioridades a llaves*/
 
-/*Vamos a forzar una función de comparador de elementos*/
+/*Vamos a forzar una función de comparador de los nodos*/
 
 bool cmp(const std::pair<Tpriority, TKey> &l, const std::pair<Tpriority,TKey> &r){
    return l.first < r.first; 
@@ -35,20 +24,9 @@ bool cmp(const std::pair<Tpriority, TKey> &l, const std::pair<Tpriority,TKey> &r
 /*Aqui lo que vamos a hacer es una funcion que devuelve el elemento de mayor prioridad, y este devuelve 
 la prioridad y la clave.*/
 
-pair<Tpriority, TKey> top() const{
-   /*Aqui la llave mas chica*/
-    TKey minimalKey = Upheap.begin()->first.second;
-    /*Aqui la prioridad mas chica*/
-    Tpriority minimalPriority = Upheap.begin()->first.first;
-    /*Recordemos que este proceso va a hacer iterativo por todo el heap para retornar el elemnto the high priority con su clave*/
-    for (auto iter = Upheap.begin(); iter != Upheap.end(); iter++) {
-        if (iter->first.first < minimalPriority) {
-            minimalPriority = iter->first.first;
-            minimalKey = iter->first.second;
-        }
-    }
-    return make_pair(minimalPriority, minimalKey);
-}
+std::pair<Tpriority, TKey> top() const {
+    return Upheap.begin()->second; 
+  }
 
 
    void pop(){
@@ -59,23 +37,34 @@ pair<Tpriority, TKey> top() const{
    }
 
    void insertOrUpdate(const TPriority &p, const TKey &k){
-      auto aux = Upheap.find(p);
+      auto auxiterator = Upheap.find(p);
       //Si ya existe el nodo, entonces se actualiza para tener la prioridad especificada.
-      if(aux != Upheap.end()){
+      if(auxiterator != Upheap.end()){
          update(p, k);
+         /*
+         auxiterator->first = p; 
+         */
+        //auxiterator->second.first = p;
       }
       //En caso contrario pues se inserta el nodo con prioridad p y llave k (osea el Id)
       else{
          insert(p, k);
+         /*
+         Upheap.emplace(p,k);
+         */
+        //heap.insert(std::make_pair(k, std::make_pair(p,k)));
       }
    } 
 
    bool isInserted(const TKey &k) const{
       if(!Upheap.empty()){
-      TKey temp = Upheap.find(k)
-     /* if(temp == std::string::npos){
+      return Upheap.find(k) != Upheap.end(); 
+      }
+   }
 
-      }*/
+   bool isempty(){
+      if(Upheap.empty()){
+      return Upheap.empty();
       }
    }
 
