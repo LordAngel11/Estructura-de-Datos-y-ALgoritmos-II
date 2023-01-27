@@ -48,10 +48,8 @@ std::pair<Tpriority, TKey> top() const {
       }
       //En caso contrario pues se inserta el nodo con prioridad p y llave k (osea el Id)
       else{
-         insert(p, k);
-         /*
+         //insert(p, k);
          Upheap.emplace(p,k);
-         */
         //heap.insert(std::make_pair(k, std::make_pair(p,k)));
       }
    } 
@@ -62,15 +60,15 @@ std::pair<Tpriority, TKey> top() const {
       }
    }
 
-   bool isempty(){
-      if(Upheap.empty()){
-      return Upheap.empty();
+   bool isempty(){        
+      if(Upheap.empty()){     //Si el heap esta vacio pues regresa que esta vacio
+      return Upheap.empty();   
       }
    }
 
    //Devuelve el numero de elementos que contiene el heap actualmente.
    int getSize() const{
-      return Upheap.size();  //devuelve el tamaño del heap :v
+      return Upheap.size();  //devuelve el tamaño del heap :v, no hay mucha ciencia 
    }
 
    void erase(const TKey &k){
@@ -81,3 +79,43 @@ std::pair<Tpriority, TKey> top() const {
    }
 
 };
+
+
+int main(){
+
+   UpdatableHeap<std::string, int> FoodDataBase; 
+
+   int OP; //Numero de operaciones
+   int i = 0; 
+
+   std::cin>>OP; 
+
+   do{
+
+      std::string option;
+      int valor;
+
+      std::cin>>option;
+
+      if(option == "P"){
+         if(!FoodDataBase.isempty()){
+         std::cout<< FoodDataBase.top().first <<" "<< FoodDataBase.top().second <<std::endl;
+         }
+         else{
+            std::cout << "-1" << std::endl;
+         }
+      }
+
+      if(option == "IU"){
+         
+      }
+
+
+      i++;
+   }while (i <= OP);
+   
+
+
+
+   return 0; 
+}
