@@ -43,13 +43,17 @@ int LCA(int u, int v) {
 }
 
 int main() {
-  scanf("%d%d", &n, &q);
+  //scanf("%d%d", &n, &q);
+
+  std::cin>>n>>q;
   for (int i = 0; i < n; i++) {
-    scanf("%d", &node_val[i]);
+    //scanf("%d", &node_val[i]);
+    std::cin>>node_val[i];
   }
   for (int i = 0; i < n-1; i++) {
     int u, v;
-    scanf("%d%d", &u, &v);
+    //scanf("%d%d", &u, &v);
+    std::cin>>u>>v;
     tree[u].push_back(v);
     tree[v].push_back(u);
   }
@@ -59,7 +63,8 @@ int main() {
   }
   while (q--) {
     int u, d;
-    scanf("%d%d", &u, &d);
+    //scanf("%d%d", &u, &d);
+    std::cin>>u>>d;
     int node = u;
     long long ans = node_val[node];
     while (d-- && node != 0) {
