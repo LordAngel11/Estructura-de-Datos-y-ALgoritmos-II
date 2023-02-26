@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/lordangel11/Documentos/Demat/LordAngel11/Estructura de Datos y Algoritmos II/Estructura-de-Datos-y-ALgoritmos-II/Tareas",
-      "program": "/home/lordangel11/Documentos/Demat/LordAngel11/Estructura de Datos y Algoritmos II/Estructura-de-Datos-y-ALgoritmos-II/Tareas/build/Debug/outDebug",
+      "cwd": "/home/lordangel11/Documentos/Demat/LordAngel11/Estructura de Datos y Algoritmos II/Estructura-de-Datos-y-ALgoritmos-II",
+      "program": "/home/lordangel11/Documentos/Demat/LordAngel11/Estructura de Datos y Algoritmos II/Estructura-de-Datos-y-ALgoritmos-II/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

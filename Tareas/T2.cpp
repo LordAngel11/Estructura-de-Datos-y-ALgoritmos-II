@@ -1,14 +1,23 @@
 #include <bits/stdc++.h>
+
+/*Juan Angel López Delgadillo*/
+
+//Definimos nuestras constantes con el objetivo de tener el maximo de nodos en el arbol
 #define MAXN 200005
-#define LOG_MAXN 20
+#define LOG_MAXN 20 //Logmax es la cantidad maxima para representar el arbol en binario.
 using namespace std;
 
-int n, q, node_val[MAXN], lg2[MAXN];
-vector<int> tree[MAXN];
+//n nodos y q querys
+int n, q, node_val[MAXN], lg2[MAXN];  //almacenamos los nodos en un arreglo
+vector<int> tree[MAXN];     //generamos un vector de enteros
+//Aqui es donde vamos a generar una sparsing table en forma de matriz para almacenar los ancestros de cada nodo del arbol
 int anc[LOG_MAXN][MAXN];
-int level[MAXN];
-long long dp[MAXN];
+int level[MAXN]; //Almacenamos el numero de niveles del arbol
+long long dp[MAXN]; //almacenamos el valor total de cada nodo
 
+
+//Vamos a usar esta función de DFS para recorrer el arbol a profundidad
+//Mientras recorremos el arbol calculamos el valor d total de cada nodo hasta la raiz
 void dfs(int u, int parent) {
   anc[0][u] = parent;
   level[u] = level[parent] + 1;
@@ -18,13 +27,16 @@ void dfs(int u, int parent) {
   for (int i = 0; i < tree[u].size(); i++) {
     int v = tree[u][i];
     if (v != parent) {
+      //Aqui vamos almacenando el valor total en el arreglo dp
       dp[v] = dp[u] + node_val[v];
       dfs(v, u);
     }
   }
 }
-
+//Ahora dados dos nodos u,v \in N-1 vamos a utilizar el siguiente algoritmo para encontrar
+//el ancestro común mas cercano entre dos nodos en el árbol.
 int LCA(int u, int v) {
+  //Aqui vamos a utilizar el arreglo de los niveles del arbol para hacer unas comparaciones
   if (level[u] < level[v]) swap(u, v);
   int d = level[u] - level[v];
   for (int i = lg2[d]; i >= 0; i--) {
@@ -39,20 +51,19 @@ int LCA(int u, int v) {
       v = anc[i][v];
     }
   }
+  //Regresa el ancestro mas cercano al nodo
   return anc[0][u];
 }
 
 int main() {
-  //scanf("%d%d", &n, &q);
-
+  //Dados n y q se almacena todo lo del input
   std::cin>>n>>q;
   for (int i = 0; i < n; i++) {
-    //scanf("%d", &node_val[i]);
     std::cin>>node_val[i];
   }
   for (int i = 0; i < n-1; i++) {
+    //Se ingresan los valores u,v
     int u, v;
-    //scanf("%d%d", &u, &v);
     std::cin>>u>>v;
     tree[u].push_back(v);
     tree[v].push_back(u);
@@ -63,7 +74,6 @@ int main() {
   }
   while (q--) {
     int u, d;
-    //scanf("%d%d", &u, &d);
     std::cin>>u>>d;
     int node = u;
     long long ans = node_val[node];
