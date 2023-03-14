@@ -1,65 +1,49 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
+//Juan Angel Lopez Delgadillo
+
+
+//Estructura del nodo para el Treap Implicito 
 struct Node {
-    long long x;
-    int p, cnt;
+    int x, p, cnt;
     Node *left, *right;
 
+    //Constructor
     Node(long long _x) : x(_x), p(rand()), cnt(1), left(nullptr), right(nullptr) {}
-
-    ~Node() {
-        delete left;
-        delete right;
-    }
-
+   
+   //Destructor
+    ~Node() { delete left; delete right; }
     void recalc() {
-        cnt = 1;
-        if (left) {
-            cnt += left->cnt;
-        }
-        if (right) {
-            cnt += right->cnt;
-        }
+        cnt = 1;                //actualiza el cnt de los subarboles
+        if (left) cnt += left->cnt;        //izquierda
+        if (right) cnt += right->cnt;       //deecha
     }
 };
+typedef Node;
 
+//Estructura del treap con sus operaciones xddd
 class Treap {
 public:
     Treap() : root(nullptr) {}
-
-    void insert(long long x) {
-        Node* left, * right;
+    void insert(int x) {
+        Node* left, *right;
         splitByValue(root, x, left, right);
         root = merge(merge(left, new Node(x)), right);
     }
-
-    void erase(long long x) {
-        Node* left, * mid, * right;
+    void erase(int x) {
+        Node* left, *mid, *right;
         splitByValue(root, x, left, mid);
         splitByValue(mid, x + 1, mid, right);
         delete mid;
         root = merge(left, right);
     }
-
-    int count(long long x) {
+    int count(int x) {
         return count(root, x);
     }
-
-    int size() {
-        return root ? root->cnt : 0;
-    }
-
-    void printInOrder() {
-        printInOrder(root);
-        cout << endl;
-    }
-
 private:
     Node* root;
-
-    void splitByValue(Node* n, long long d, Node*& left, Node*& right) {
+    void splitByValue(Node* n, int d, Node*& left, Node*& right) {
         if (!n) {
             left = right = nullptr;
             return;
@@ -73,7 +57,6 @@ private:
         }
         n->recalc();
     }
-
     Node* merge(Node* left, Node* right) {
         if (!left || !right) {
             return left ? left : right;
@@ -88,8 +71,7 @@ private:
             return right;
         }
     }
-
-    int count(Node* n, long long x) {
+    int count(Node* n, int x) {
         if (!n) {
             return 0;
         }
@@ -101,12 +83,27 @@ private:
             return count(n->right, x);
         }
     }
-
-    void printInOrder(Node* n) {
-        if (n) {
-            printInOrder(n->left);
-            cout << n->x << " ";
-            printInOrder(n->right);
-        }
-    }
 };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    cin >> n >> q;
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    Treap t;
+    for (int i = 0; i < q - 1; ++i) {
+        t.insert(a[i]);
+    }
+    long long ans = 0;
+    for (int i = q - 1; i < n; ++i) {
+        t.insert(a[i]);
+        ans += t.count(a[i] - 1);
+        t.erase(a[i - q + 1]);
+    }
+    cout << ans << "\n";
+    return 0;
+}
