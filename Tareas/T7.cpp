@@ -1,27 +1,21 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//Juan Angel Lopez Delgadillo
+const int MOD = 1000000007;
+const int MAXN = 100005;
 
-#define MOD 1000000007
+vector<int> adj[MAXN];
+bool visited[MAXN];
+int color[MAXN];
+long long blackCount, whiteCount;
 
-typedef long long int ll;
-
-//definimos nuestra lista 
-vector<int> adjList[100005];
-bool visited[100005];  //Vector de TRUE O FALSE si visitamos o no 
-int color[100005];
-ll blackCount, whiteCount;  //Definimos el conteo de blancos y negros
-
-
-//Implementacion del dfs con las estructuras hechas previamente
 void dfs(int u, int c) {
     visited[u] = true;
     color[u] = c;
     if(c == 1) blackCount++;
     else whiteCount++;
 
-    for(int v: adjList[u]) {
+    for(int v: adj[u]) {
         if(!visited[v]) {
             dfs(v, 3-c);
         } else if(color[v] == c) {
@@ -32,24 +26,33 @@ void dfs(int u, int c) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
     int n, m;
     cin >> n >> m;
 
     for(int i = 0; i < m; i++) {
         int u, v;
         cin >> u >> v;
-        adjList[u].push_back(v);
-        adjList[v].push_back(u);
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
 
-    ll answer = 1;
+    long long answer = 1;
     memset(visited, false, sizeof(visited));
     memset(color, 0, sizeof(color));
     for(int i = 1; i <= n; i++) {
         if(!visited[i]) {
             blackCount = whiteCount = 0;
             dfs(i, 1);
-            answer = (answer * (ll)(pow(2, blackCount) + pow(2, whiteCount))) % MOD;
+            if(blackCount == 0 && whiteCount == 0) continue;
+            if(blackCount == 0 || whiteCount == 0) {
+                answer = 2 * answer % MOD;
+            } else {
+                answer = answer * (1ll << blackCount) % MOD;
+                answer = answer * (1ll << whiteCount) % MOD;
+            }
         }
     }
 
