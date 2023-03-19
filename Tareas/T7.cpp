@@ -85,6 +85,8 @@ int count_connected_components(int n, const std::vector<std::vector<int>>& graph
     return faux(connected_components);
 }
 
+
+//Main de toda la vida 
 int main() {
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(nullptr);
