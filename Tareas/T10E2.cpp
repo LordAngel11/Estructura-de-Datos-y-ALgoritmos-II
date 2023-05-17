@@ -71,6 +71,8 @@ void find_repeated_substrings(string s){
 }
 
 int main(){
+
+    //Pruebe insertando PARANGARIUTIRIMICUARO... o como esta en el pdf de la tarea xD (palabra bien dificil de escribir xD)
     string s;
     cin >> s;
 
