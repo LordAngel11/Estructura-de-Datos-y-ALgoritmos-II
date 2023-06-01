@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 
-int main(){
+//Juan ANgel Lopez Delgadillo
+//Uva 12150 Pole Positions
 
+using namespace std;
 
-    return 0;
-}
