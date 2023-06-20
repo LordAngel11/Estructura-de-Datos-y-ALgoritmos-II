@@ -1,55 +1,71 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int m = 1000000007, q = 31;
+const int MOD = 1000000007;  //Modulo para cálculos hash
+const int BASE = 31;  //base para cálculos hash
 
-vector<long long> pi;
-vector<long long> hashed_prefixes;
+vector<long long> power;  // vector de potencias precalculadas de BASE
+vector<long long> hashed_prefixes;  //vector de prefijos hash de la cadena
 
 void prehashing(string s){
-    for (int i = 1; i < s.size(); i++)
-    pi[i] = (pi[i-1] * q) % m;
+    int n = s.size();
+    power.resize(n);
+    hashed_prefixes.resize(n + 1);
 
-    for (int i = 0; i < s.size(); i++)
-    hashed_prefixes[i+1] = (hashed_prefixes[i] + (s[i] - 'a' + 1) * pi[i]) % m;
+    // Aqui lo que hacemos en calcular las potencias de BASE
+    power[0] = 1;
+    for (int i = 1; i < n; i++){
+        power[i] = (power[i-1] * BASE) % MOD;
+    }
+
+    //Aqui caalculamos los prefijos hash
+    for (int i = 0; i < n; i++){
+        hashed_prefixes[i+1] = (hashed_prefixes[i] + (s[i] - 'a' + 1) * power[i]) % MOD;
+    }
 }
 
 int main(){
-    int n, p;
-    string s;
-    cin >> n;
-    for(int i = 0; i < n; i++){
+
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int p;
+        string s;
         cin >> p >> s;
-        
-        //Hacemos el pre hasheo de la cadena
-        pi.assign(s.size(),1);
-        hashed_prefixes.assign(s.size()+1,0);
+
+        //realizamos el prehashing de la cadena
         prehashing(s);
 
-        int count, hash1, hash2, res = 0;
-        //Buscamos dividir una subcadena de s en p cadenas iguales
-        //estas entonces tendran a lo mas tamano s.size()/p
-        for(int i = 1; i <= s.size()/p; i++){
-            //Aqui vemos los posibles comienzos para nuestras repeticiones
-            //de la subcadena dentro de la cadena original
-            for(int j = 0; j <= s.size()-(p*i); j++){
-                count = 0;
-                //Hasheo para la subcadena actual
-                hash1 = (hashed_prefixes[j+i] + m - hashed_prefixes[j])%m;
-                hash1 = (hash1*pi[s.size()-j-1])% m;
-                //Vamos dando saltos de tamano p
-                for(int k = 0; k < p; k++){
-                    //Si la cadena se repite aumentamos el contador
-                    hash2 = (hashed_prefixes[j+(k*i)+i] + m - hashed_prefixes[j+(k*i)])%m;
-                    hash2 = (hash2*pi[s.size()-(j+(k*i))-1])%m;
-                    if(hash1 == hash2) count++;
+        //calculamos su tamaño y
+        int n = s.size();
+        int res = 0;  // su looongitud de la subcadena repetida
+
+        // Busca la longitud de la subcadena repetida
+        for (int len = 1; len <= n / p; len++) {
+            // Comprueba los posibles puntos de inicio para las repeticiones
+            for (int start = 0; start <= n - (p * len); start++) {
+                int count = 0;
+                long long hash1 = (hashed_prefixes[start + len] + MOD - hashed_prefixes[start]) % MOD;
+                hash1 = (hash1 * power[n - start - 1]) % MOD;
+
+                // Verifica las repeticiones de la subcadena
+                for (int k = 0; k < p; k++) {
+                    long long hash2 = (hashed_prefixes[start + (k * len) + len] + MOD - hashed_prefixes[start + (k * len)]) % MOD;
+                    hash2 = (hash2 * power[n - (start + (k * len)) - 1]) % MOD;
+                    if (hash1 == hash2)
+                        count++;
                 }
-                //Cuando tengamos p repeticiones tenemos una subcadena solucion
-                if(count == p) res = i;
+
+                //si todas las repeticiones coinciden, 
+                if (count == p)
+                    res = len; //actualiza la longitud de la subcadena
             }
         }
-        //El tamano regresado seria el tamano de la cadena por la cantidad de veces que se repite
-        cout << p*res << endl;
+
+        // La longitud de la subcadena repetida es la longitud de la cadena original multiplicada por el número de repeticiones
+        cout << p * res << endl;
     }
+
     return 0;
 }
